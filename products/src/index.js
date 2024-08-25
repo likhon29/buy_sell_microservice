@@ -1,4 +1,5 @@
 const express = require("express");
+const config = require("./config");
 
 const app = express();
 
@@ -9,6 +10,6 @@ app.use("/", (req, res, next) => {
   res.send("Welcome to Products");
 });
 
-app.listen(8002, () => {
-  console.log("Server is running on port 8002");
+app.listen(config.PORT, () => {
+  console.log(`Server is running on port ${config.PORT}`);
 });

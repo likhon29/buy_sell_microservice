@@ -1,14 +1,33 @@
 const express = require("express");
+const { PORT } = require("./config");
+const { databaseConnection } = require("./database");
+// const expressApp = require("./express-app");
+// const { CreateChannel } = require("./utils");
 
-const app = express();
+const StartServer = async () => {
+  const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  await databaseConnection();
 
-app.use("/", (req, res, next) => {
-  res.send("Welcome to Customer");
-});
+  // const channel = await CreateChannel();
 
-app.listen(8001, () => {
-  console.log("Server is running on port 8001");
-});
+  // await expressApp(app, channel);
+
+  app.use("/", (req, res, next) => {
+    res.send("Welcome to Customer");
+  });
+
+  app
+    .listen(PORT, () => {
+      console.log(`listening to port ${PORT}`);
+    })
+    .on("error", (err) => {
+      console.log(err);
+      process.exit();
+    })
+    .on("close", () => {
+      channel.close();
+    });
+};
+
+StartServer();
