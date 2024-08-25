@@ -9,6 +9,6 @@ app.use("/", (req, res, next) => {
   res.send("Welcome to shopping");
 });
 
-app.listen(8001, () => {
-  console.log("Server is running on port 8001");
+app.listen(8003, () => {
+  console.log("Server is running on port 8003");
 });
