@@ -121,7 +121,10 @@ class CustomerService {
   async SubscribeEvents(payload) {
     console.log("Triggering.... Customer Events");
 
-    payload = JSON.parse(payload);
+    // Check if the payload is already an object
+    if (typeof payload === "string") {
+      payload = JSON.parse(payload);
+    }
 
     const { event, data } = payload;
 
@@ -129,6 +132,8 @@ class CustomerService {
 
     switch (event) {
       case "ADD_TO_WISHLIST":
+        this.AddToWishlist(userId, product);
+        break;
       case "REMOVE_FROM_WISHLIST":
         this.AddToWishlist(userId, product);
         break;
