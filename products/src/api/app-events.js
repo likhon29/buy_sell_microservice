@@ -11,7 +11,6 @@ module.exports = (app) => {
     console.log(
       "============= Product Service Recieved Event ================"
     );
-    console.log(payload);
-    res.json(payload);
+    return res.status(200).json({ message: "notified!" });
   });
 };
