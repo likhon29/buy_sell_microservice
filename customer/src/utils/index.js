@@ -38,7 +38,7 @@ module.exports.GenerateSignature = async (payload) => {
 module.exports.ValidateSignature = async (req) => {
   try {
     const signature = req.get("Authorization");
-    const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
+    const payload = await jwt.verify(signature?.split(" ")[1], APP_SECRET);
     req.user = payload;
     return true;
   } catch (error) {
