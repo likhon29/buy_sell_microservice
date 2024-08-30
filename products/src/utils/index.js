@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const axios = require("axios");
 const amqplib = require("amqplib");
 
 const {
@@ -29,7 +28,7 @@ module.exports.ValidatePassword = async (
 
 module.exports.GenerateSignature = async (payload) => {
   try {
-    return await jwt.sign(payload, APP_SECRET, { expiresIn: "30d" });
+    return  jwt.sign(payload, APP_SECRET, { expiresIn: "30d" });
   } catch (error) {
     console.log(error);
     return error;
@@ -56,27 +55,6 @@ module.exports.FormateData = (data) => {
   }
 };
 
-//Raise Events
-module.exports.PublishCustomerEvent = async (payload) => {
-  // axios.post("http://customer:8001/app-events/", {
-  //   payload,
-  // });
-
-  axios.post(`${BASE_URL}/customer/app-events/`, {
-    payload,
-  });
-};
-
-module.exports.PublishShoppingEvent = async (payload) => {
-  axios.post(`${BASE_URL}/shopping/app-events/`, {
-    payload,
-  });
-
-  // axios.post(`http://shopping:8003/app-events/`, {
-  //   payload,
-  // });
-};
-
 //Message Broker
 
 module.exports.CreateChannel = async () => {
@@ -89,6 +67,8 @@ module.exports.CreateChannel = async () => {
     throw err;
   }
 };
+
+
 
 module.exports.PublishMessage = (channel, service, msg) => {
   channel.publish(EXCHANGE_NAME, service, Buffer.from(msg));

@@ -119,6 +119,7 @@ class CustomerService {
   }
 
   async SubscribeEvents(payload) {
+    console.log("============= Shopping ================");
     console.log("Triggering.... Customer Events");
 
     // Check if the payload is already an object

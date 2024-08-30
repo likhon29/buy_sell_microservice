@@ -7,7 +7,8 @@ const { PublishMessage } = require("../utils");
 module.exports = (app, channel) => {
   const service = new ShoppingService();
 
-//   SubscribeMessage(channel, service);
+  SubscribeMessage(channel, service);
+
 
   app.post("/order", UserAuth, async (req, res, next) => {
     const { _id } = req.user;
@@ -17,8 +18,8 @@ module.exports = (app, channel) => {
 
     const payload = await service.GetOrderPayload(_id, data, "CREATE_ORDER");
 
-    PublishCustomerEvent(payload);
-    // PublishMessage(channel, CUSTOMER_SERVICE, JSON.stringify(payload));
+    // PublishCustomerEvent(payload);
+    PublishMessage(channel, CUSTOMER_SERVICE, JSON.stringify(payload));
 
     res.status(200).json(data);
   });

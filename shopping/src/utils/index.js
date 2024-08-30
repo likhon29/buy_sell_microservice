@@ -29,7 +29,7 @@ module.exports.ValidatePassword = async (
 
 module.exports.GenerateSignature = async (payload) => {
   try {
-    return await jwt.sign(payload, APP_SECRET, { expiresIn: "30d" });
+    return jwt.sign(payload, APP_SECRET, { expiresIn: "30d" });
   } catch (error) {
     console.log(error);
     return error;
@@ -39,7 +39,7 @@ module.exports.GenerateSignature = async (payload) => {
 module.exports.ValidateSignature = async (req) => {
   try {
     const signature = req.get("Authorization");
-    const payload = await jwt.verify(signature?.split(" ")[1], APP_SECRET);
+    const payload = jwt.verify(signature?.split(" ")[1], APP_SECRET);
     req.user = payload;
     return true;
   } catch (error) {
@@ -57,21 +57,21 @@ module.exports.FormateData = (data) => {
 };
 
 //Raise Events
-module.exports.PublishCustomerEvent = async (payload) => {
-  // axios.post("http://customer:8001/app-events/", {
-  //   payload,
-  // });
+// module.exports.PublishCustomerEvent = async (payload) => {
+//   // axios.post("http://customer:8001/app-events/", {
+//   //   payload,
+//   // });
 
-  axios.post(`${BASE_URL}/customer/app-events`, {
-    payload,
-  });
-};
+//   axios.post(`${BASE_URL}/customer/app-events`, {
+//     payload,
+//   });
+// };
 
-module.exports.PublishShoppingEvent = async (payload) => {
-  axios.post(`${BASE_URL}/shopping/app-events`, {
-    payload,
-  });
-};
+// module.exports.PublishShoppingEvent = async (payload) => {
+//   axios.post(`${BASE_URL}/shopping/app-events`, {
+//     payload,
+//   });
+// };
 
 //Message Broker
 
@@ -102,6 +102,8 @@ module.exports.SubscribeMessage = async (channel, service) => {
     q.queue,
     (msg) => {
       if (msg.content) {
+        console.log(msg.content.toString());
+
         console.log("the message is:", msg.content.toString());
         service.SubscribeEvents(msg.content.toString());
       }
